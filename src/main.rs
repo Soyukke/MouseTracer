@@ -5,8 +5,47 @@ use winit::{
     event_loop::{ControlFlow, EventLoop},
     window::Window, dpi::{LogicalSize, LogicalPosition},
 };
+use image::io::Reader as ImageReader;
 
+fn getTexture(device: wgpu::Device, queue: &wgpu::Queue) {
+        let texture = {
+            let img_data = include_bytes!("../assets/image.png");
+            let dyimg = image::load_from_memory(img_data).unwrap();
+            //let decoder = png::Decoder::new(std::io::Cursor::new(img_data));
+            //let mut reader = decoder.read_info().unwrap();
+            //let mut buf = vec![0; reader.output_buffer_size()];
+            //let info = reader.next_frame(&mut buf).unwrap();
 
+            let size = wgpu::Extent3d {
+                width: dyimg.width(),
+                height: dyimg.height(),
+                depth_or_array_layers: 1,
+            };
+            let texture = device.create_texture(&wgpu::TextureDescriptor {
+                label: None,
+                size,
+                mip_level_count: 1,
+                sample_count: 1,
+                dimension: wgpu::TextureDimension::D2,
+                format: wgpu::TextureFormat::Rgba8UnormSrgb,
+                usage: wgpu::TextureUsages::COPY_DST | wgpu::TextureUsages::TEXTURE_BINDING,
+            });
+            queue.write_texture(
+                texture.as_image_copy(),
+                dyimg.as_bytes(),
+                wgpu::ImageDataLayout {
+                    offset: 0,
+                    bytes_per_row: std::num::NonZeroU32::new(dyimg.width() * 4),
+                    rows_per_image: None,
+                },
+                size,
+            );
+            texture
+        };
+        let view = texture.create_view(&wgpu::TextureViewDescriptor::default());
+
+        texture;
+}
 
 // 参考
 // https://zenn.dev/matcha_choco010/articles/2022-07-05-rust-graphics-wgpu
