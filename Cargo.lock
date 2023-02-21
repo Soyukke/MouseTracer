@@ -115,20 +115,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0d8c1fef690941d3e7788d328517591fecc684c084084702d6ff1641e993699a"
 
 [[package]]
-name = "boxel"
-version = "0.1.0"
-dependencies = [
- "bytemuck",
- "enigo",
- "env_logger",
- "image",
- "log",
- "pollster",
- "wgpu",
- "winit",
-]
-
-[[package]]
 name = "bumpalo"
 version = "3.11.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -693,6 +679,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "glam"
+version = "0.23.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8e4afd9ad95555081e109fe1d21f2a30c691b5f0919c67dfa690a2e1eb6bd51c"
+
+[[package]]
 name = "glow"
 version = "0.11.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1001,6 +993,22 @@ dependencies = [
  "log",
  "wasi",
  "windows-sys 0.42.0",
+]
+
+[[package]]
+name = "mouse_tracer"
+version = "0.1.0"
+dependencies = [
+ "bytemuck",
+ "enigo",
+ "env_logger",
+ "glam",
+ "image",
+ "log",
+ "nanorand",
+ "pollster",
+ "wgpu",
+ "winit",
 ]
 
 [[package]]
